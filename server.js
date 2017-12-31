@@ -5,14 +5,12 @@ const hbs = require('hbs');
 
 const fs = require('fs');
 
-
+const port = process.env.PORT || 3000;
 var app = express(); // making new Express App
 
 hbs.registerPartials(__dirname + '/views/partials'); // Take directory to use for all of your handlebar partial files
 
 app.set('view engine', 'hbs');
-
-app.use(express.static(__dirname + '/public'));
 
 app.use(function (req,res,next){
     var now = new Date().toString();
@@ -29,6 +27,9 @@ app.use(function (req,res,next){
 app.use( function (req,res,next) {
     res.render('maintenance.hbs');
 });
+
+app.use(express.static(__dirname + '/public'));
+
 
 hbs.registerHelper('getCurrentYear', function() {
     return new Date().getFullYear();
@@ -59,6 +60,6 @@ app.get('/bad', function (req,resp) {
     });
 });
 
-app.listen(3000, function(){
-    console.log('Server is up on port 3000')
+app.listen(port, function(){
+    console.log(`Server is up on port ${port}`);
 });
